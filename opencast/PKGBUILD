@@ -1,0 +1,24 @@
+pkgname=jules-opencast-dev
+pkgver=1
+pkgrel=1
+arch=(any)
+depends=(
+  # TODO This depends on other packages in here ... is that a problem?
+  #git
+  #jules-docker
+  ## TODO Which of the editors should be in here?!
+  #intellij-idea-community-edition
+  #jdk8-openjdk
+  #maven
+  #python
+  ## TODO Is this true? They are always installed locally ...
+  ##   You just have to use them somehow
+  #nodejs
+  #npm
+  ## TODO Which of the admin tools does this need?
+  ##   Maybe the distinction is moot and you should just have stuff you need for work?
+  #curl
+  #openssh
+  #mariadb-clients
+  #postgresql
+)

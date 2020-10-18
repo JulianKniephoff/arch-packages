@@ -1,0 +1,12 @@
+pkgname=jules-emacs
+pkgver=1
+pkgrel=1
+arch=(any)
+depends=(
+  emacs
+  # TODO SHIT, `cask` is in `AUR` ...
+  #cask
+  # TODO `rust-analyzer`? `npm`? How do you want to handle these?
+  #   Optional deps? Overlapping meta-packages?
+  # TODO Any other binaries you need? `grep`?
+)

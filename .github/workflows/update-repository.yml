@@ -1,0 +1,27 @@
+name: update-repository
+on: push
+jobs:
+  build-packages:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.pkg.github.com/juliankniephoff/arch-packages/builder:builder
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      # TODO Can this be an array?
+      options: --privileged
+      volumes:
+        - /etc/machine-id:/etc/machine-id
+        - /sys/fs/cgroup/systemd/actions_job:/sys/fs/cgroup/systemd/actions_job
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: src
+      - uses: actions/checkout@v2
+        with:
+          ref: repo
+          path: repo
+      # TODO Can you at least cache this?
+      - run: ./build.sh
+        # TODO You could also `cd` in the script ...
+        working-directory: src

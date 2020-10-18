@@ -1,0 +1,8 @@
+pkgname=jules-docker
+pkgver=1
+pkgrel=1
+arch=(any)
+depends=(
+  docker
+  docker-compose
+)
