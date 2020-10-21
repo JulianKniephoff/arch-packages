@@ -1,0 +1,24 @@
+name: Set up a base Docker image for building Arch packages in GitHub Actions
+
+on:
+  push:
+    paths:
+      - builder/Dockerfile
+      - .github/workflows/builder.yml
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build_and_publish:
+    name: Build and publish the image to GitHub packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          path: builder
+          registry: docker.pkg.github.com
+          repository: juliankniephoff/arch-packages/builder
+          tag_with_ref: true
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
