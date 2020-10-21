@@ -1,0 +1,21 @@
+name: Add an AUR package to the repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      packages:
+        required: yes
+
+jobs:
+  add:
+    name: Add an AUR package to the repository
+    runs-on: ubuntu-latest
+    container: docker.pkg.github.com/juliankniephoff/arch-packages/builder
+    steps:
+      - uses: actions/checkout@v2
+        ref: repo
+      # TODO What else do you need?
+      - run: pacman -Syu
+      # TODO `aur sync -u`?
+      - run: sudo -u builder aur sync -c -u --root=. -d jules ${{ github.event.inputs.packages }}
+      # TODO Commit
