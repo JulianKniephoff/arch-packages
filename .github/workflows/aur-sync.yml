@@ -1,0 +1,51 @@
+name: Manage AUR packages
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: >
+          Space separated list of packages to add.
+          Can be empty, in which case only updates are installed.
+
+jobs:
+  main:
+    name: Add and update AUR packages in the repository
+    runs-on: ubuntu-latest
+    container:
+      image: docker.pkg.github.com/juliankniephoff/arch-packages/builder:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --privileged
+      volumes:
+        - /etc/machine-id:/etc/machine-id
+        - /sys/fs/cgroup/systemd/actions_job:/sys/fs/cgroup/systemd/actions_job
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: repo
+      - run: |
+          chown -R builder .
+          ln -sf jules.db.tar.xz jules.db
+          ln -sf jules.files.tar.xz jules.files
+
+          sudo -u builder aur sync -c -u --noconfirm --noview --root=$PWD -d jules ${{ github.event.inputs.packages }}
+
+          cp --remove-destination jules.db.tar.xz jules.db
+          cp --remove-destination jules.files.tar.xz jules.files
+
+      - uses: haya14busa/action-cond@v1
+        id: check_event
+        with:
+          cond: ${{ github.event_name == 'workflow_dispatch' }}
+          if_true: Added ${{ github.event.inputs.packages }} from the AUR
+          if_false: Updated AUR packages
+      - uses: github-actions-x/commit@v2.7
+        with:
+          name: JulianKniephoff
+          email: me@juliankniephoff.com
+          push-branch: repo
+          commit-message: ${{ steps.check_event.outputs.value }}
