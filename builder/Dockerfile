@@ -26,3 +26,7 @@ run \
 
 user root
 workdir /
+
+copy init.sh /
+entrypoint ["/init.sh"]
+cmd ["/usr/bin/bash"]
