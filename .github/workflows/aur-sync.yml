@@ -40,7 +40,7 @@ jobs:
       - uses: haya14busa/action-cond@v1
         id: check_event
         with:
-          cond: ${{ github.event_name == 'workflow_dispatch' }}
+          cond: ${{ github.event.inputs.package == '' }}
           if_true: Added ${{ github.event.inputs.packages }} from the AUR
           if_false: Updated AUR packages
       - uses: github-actions-x/commit@v2.7
