@@ -1,17 +1,15 @@
-from archlinux:latest
+from archlinux/archlinux:base-devel
 
 copy pacman.conf /tmp
 run \
 	useradd -m -G wheel builder && \
-	mkdir /etc/sudoers.d && \
-	chmod 0750 /etc/sudoers.d && \
 	echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
 	echo 'Server = https://mirror.pkgbuild.com/$repo/os/$arch' > /etc/pacman.d/mirrorlist && \
 	cat /tmp/pacman.conf >> /etc/pacman.conf && \
 	rm /tmp/pacman.conf
 
 run \
-	pacman -Syu --noconfirm --needed sudo base-devel devtools && \
+	pacman -Syu --noconfirm --needed devtools && \
 	pacman -Scc --noconfirm
 
 user builder
