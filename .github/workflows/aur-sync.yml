@@ -28,9 +28,9 @@ jobs:
         with:
           ref: repo
       - run: |
-          chown -R builder .
           ln -sf jules.db.tar.xz jules.db
           ln -sf jules.files.tar.xz jules.files
+          chown -R builder .
 
           sudo -u builder aur sync -c -u --noconfirm --noview --root=$PWD -d jules ${{ github.event.inputs.packages }}
 
