@@ -12,6 +12,8 @@ run \
 	pacman -Syu --noconfirm --needed devtools && \
 	pacman -Scc --noconfirm
 
+run cp -a /usr/share/devtools/pacman-extra.conf /usr/share/devtools/pacman-aur.conf
+
 user builder
 workdir /home/builder
 run \
