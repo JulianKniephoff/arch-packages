@@ -2,8 +2,8 @@ from archlinux/archlinux:base-devel
 
 copy pacman.conf /tmp
 run \
-	useradd -m -G wheel builder && \
-	echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
+	useradd -m builder && \
+	echo 'builder ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
 	echo 'Server = https://mirror.pkgbuild.com/$repo/os/$arch' > /etc/pacman.d/mirrorlist && \
 	cat /tmp/pacman.conf >> /etc/pacman.conf && \
 	rm /tmp/pacman.conf
