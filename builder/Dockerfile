@@ -12,7 +12,8 @@ run \
 	pacman -Syu --noconfirm --needed devtools && \
 	pacman -Scc --noconfirm
 
-run cp -a /usr/share/devtools/pacman-extra.conf /usr/share/devtools/pacman-aur.conf
+run mkdir /etc/aurutils && \
+	cp -a /usr/share/devtools/pacman-extra.conf /etc/aurutils/pacman-jules.conf
 
 user builder
 workdir /home/builder
